@@ -1,0 +1,22 @@
+{
+  "name": "runbeck-code-exercise-server",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sjohnsonaz/runbeck-code-exercise.git"
+  },
+  "author": "sjohnson@sjohnsonaz.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sjohnsonaz/runbeck-code-exercise/issues"
+  },
+  "homepage": "https://github.com/sjohnsonaz/runbeck-code-exercise#readme",
+  "devDependencies": {
+    "typescript": "^3.8.3"
+  }
+}

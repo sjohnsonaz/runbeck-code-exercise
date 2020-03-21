@@ -1,0 +1,29 @@
+{
+  "name": "runbeck-code-exercise",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "npm run install-server && npm run install-client",
+    "install-server": "cd ./server && npm install",
+    "install-client": "cd ./client && npm install",
+    "build": "npm run build-server && npm run build-client",
+    "build-server": "cd ./server && npm run build",
+    "build-client": "cd ./client && npm run min",
+    "serve": "concurrently --names \"server,client\" \"cd ./server && npm run serve\" \"cd ./client && npm run watch\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sjohnsonaz/runbeck-code-exercise.git"
+  },
+  "author": "sjohnson@sjohnsonaz.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sjohnsonaz/runbeck-code-exercise/issues"
+  },
+  "homepage": "https://github.com/sjohnsonaz/runbeck-code-exercise#readme",
+  "devDependencies": {
+    "concurrently": "^3.5.1"
+  }
+}
