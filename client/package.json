@@ -23,7 +23,8 @@
     "@artistry/react": "0.6.4",
     "artistry": "0.9.7",
     "react": "16.13.1",
-    "react-dom": "16.13.1"
+    "react-dom": "16.13.1",
+    "roboto-fontface": "0.10.0"
   },
   "devDependencies": {
     "@types/react": "16.9.25",

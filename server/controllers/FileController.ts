@@ -10,7 +10,8 @@ export default class FileController extends Controller {
     fileManager = new FileManger();
 
     @method()
-    async post(file: IFileField, format: FileFormat, fieldCount: string) {
+    async post($body: any, file: IFileField, format: FileFormat, fieldCount: string) {
+        console.log($body);
         if (file) {
             let newPath = path.join(config.uploadPath, file.filename);
             let value = await new Promise<string>((resolve, reject) => {
@@ -24,7 +25,7 @@ export default class FileController extends Controller {
             });
             return await this.fileManager.processFile(value, format, parseInt(fieldCount));
         } else {
-            throw new Error('No post data');
+            throw new Error('No file data');
         }
     }
 }

@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/sjohnsonaz/runbeck-code-exercise#readme",
   "dependencies": {
-    "sierra": "0.3.15"
+    "sierra": "0.3.16"
   },
   "devDependencies": {
     "@types/node": "13.9.2",
