@@ -30,7 +30,6 @@ node_modules
 
 # Build directory
 dist/
-public/bundle/
 
 # Packed files
 *.tgz

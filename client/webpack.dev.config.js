@@ -13,7 +13,7 @@ module.exports = {
     },
     output: {
         filename: '[name].js',
-        path: path.resolve(__dirname, './public/bundle'),
+        path: path.resolve(__dirname, '../public/bundle'),
         library: '[name]'
     },
     resolve: {
