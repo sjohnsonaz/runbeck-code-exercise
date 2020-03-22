@@ -29,9 +29,6 @@ build/Release
 node_modules
 
 # Build directory
-server/dist/
-server/public/bundle/
-server/public/uploads/
 
 # Packed files
 *.tgz
