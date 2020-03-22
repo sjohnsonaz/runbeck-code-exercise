@@ -1,12 +1,11 @@
 const path = require('path');
 
-const webpack = require('webpack');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
-const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 module.exports = {
-    mode: 'production',
+    mode: 'development',
+    devtool: 'source-map',
     entry: {
         'main': './scripts/main.tsx',
         'styles': './styles/styles.styl',
@@ -57,23 +56,11 @@ module.exports = {
         }]
     },
     plugins: [
-        new webpack.DefinePlugin({
-            'process.env': {
-                'NODE_ENV': JSON.stringify('production')
-            }
-        }),
         new MiniCssExtractPlugin({
             // Options similar to the same options in webpackOptions.output
             // both options are optional
             filename: "[name].css",
             chunkFilename: "[id].css"
-        }),
-        new OptimizeCssAssetsPlugin({
-            cssProcessorOptions: {
-                discardComments: {
-                    removeAll: true
-                }
-            }
         })
     ]
 };
