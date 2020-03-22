@@ -1,7 +1,7 @@
 var mainApplication = require('./dist/MainApplication');
-//var config = require('./dist/config').default;
+var config = require('./dist/config').default;
 (async () => {
-    let port = process.env.PORT || '3000';
+    let port = process.env.PORT || config.port || '3000';
     try {
         await mainApplication.init();
         await mainApplication.listen(port);
