@@ -8,7 +8,7 @@ export enum FileFormat {
 }
 
 export default class FileManager {
-    async processFile(name: string, format: FileFormat, fieldCount: number) {
+    async processFile(name: string, format: FileFormat, fields: number) {
         let parsedPath = path.parse(name);
         let correctPath = path.join(parsedPath.dir, parsedPath.name + '_correct' + parsedPath.ext);
         let incorrectPath = path.join(parsedPath.dir, parsedPath.name + '_incorrect' + parsedPath.ext);
@@ -35,7 +35,7 @@ export default class FileManager {
                 header = line.split(delimiter);
             } else {
                 let parts = line.split(delimiter);
-                if (parts.length === fieldCount) {
+                if (parts.length === fields) {
                     if (!correctWriter) {
                         correctWriter = fs.createWriteStream(correctPath);
                     }

@@ -10,9 +10,9 @@
     "build": "npm run build-server && npm run build-client",
     "build-server": "cd ./server && npm run build",
     "build-client": "cd ./client && npm run min",
-    "serve": "concurrently --names \"server,client\" \"cd ./server && npm run serve\" \"cd ./client && npm run watch\"",
+    "watch": "concurrently --names \"http, server,client\" \"npm run serve\" \"cd ./server && npm run watch\" \"cd ./client && npm run watch\"",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "serve-files": "http-server ./public -a localhost -p 3001 -P http://localhost:3000"
+    "serve": "http-server ./public -a localhost -p 3001 -P http://localhost:3000"
   },
   "repository": {
     "type": "git",

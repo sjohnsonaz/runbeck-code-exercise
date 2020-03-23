@@ -2,13 +2,15 @@
   "name": "runbeck-code-exercise-server",
   "version": "0.0.0",
   "description": "",
-  "main": "./main.js",
+  "main": "./dist/main.js",
   "typings": "dist/main.d.ts",
   "scripts": {
-    "start": "node ./main.js",
+    "postinstall": "node setup.js",
+    "start": "node ./dist/main.js",
+    "serve": "node ./dist/server.js",
     "build": "tsc",
     "prepublishOnly": "tsc --declaration",
-    "watch": "tsc-watch --onSuccess \"node --inspect ./main.js\""
+    "watch": "tsc-watch --onSuccess \"node --inspect ./dist/server.js\""
   },
   "repository": {
     "type": "git",

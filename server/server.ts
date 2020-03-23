@@ -17,4 +17,19 @@ class MainApplication {
     }
 }
 
-module.exports = new MainApplication();
+let mainApplication = new MainApplication();
+import config from './config';
+(async () => {
+    let port = process.env.PORT || config.port || '3000';
+    if (typeof port === 'string') {
+        port = parseInt(port);
+    }
+    try {
+        await mainApplication.init();
+        await mainApplication.listen(port);
+        console.log('Listening on port:', port);
+    }
+    catch {
+        console.log('Could not start listening on port:', port);
+    }
+})();
