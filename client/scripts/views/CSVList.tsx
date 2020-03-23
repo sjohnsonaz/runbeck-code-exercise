@@ -2,6 +2,7 @@ import React from 'react';
 import { IFile } from 'scripts/models/IFile';
 import { Table, Button, Divider } from '@artistry/react';
 import { FileFormat } from 'scripts/models/FileFormat';
+import DeleteButton from './DeleteButton';
 
 export interface ICSVListProps {
     files: IFile[];
@@ -10,7 +11,7 @@ export interface ICSVListProps {
 
 export default class CSVList extends React.Component<ICSVListProps> {
     onDelete(file: IFile) {
-        this.props.onDelete(file);
+        return this.props.onDelete(file);
     }
 
     render() {
@@ -91,10 +92,10 @@ export default class CSVList extends React.Component<ICSVListProps> {
                             template: (file) => {
                                 return (
                                     <td key="action">
-                                        <Button
-                                            onClick={this.onDelete.bind(this, file)}
-                                            theme="danger"
-                                        >Delete</Button>
+                                        <DeleteButton
+                                            file={file}
+                                            onDelete={this.onDelete.bind(this, file)}
+                                        />
                                     </td>
                                 );
                             }

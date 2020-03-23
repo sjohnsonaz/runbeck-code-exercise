@@ -8,6 +8,7 @@ export interface ICSVFormProps {
 
 export interface ICSVFormState {
     open?: boolean;
+    uploading?: boolean;
     file?: File;
     format?: FileFormat;
     fields?: number;
@@ -16,6 +17,7 @@ export interface ICSVFormState {
 export default class CSVForm extends React.Component<ICSVFormProps, ICSVFormState> {
     state: ICSVFormState = {
         open: false,
+        uploading: false,
         format: FileFormat.CommaSeparated,
         fields: 1
     }
@@ -29,6 +31,12 @@ export default class CSVForm extends React.Component<ICSVFormProps, ICSVFormStat
     onSelect = (files: FileList) => {
         this.setState({
             file: files[0]
+        });
+    }
+
+    clearFile = () => {
+        this.setState({
+            file: undefined
         });
     }
 
@@ -50,6 +58,7 @@ export default class CSVForm extends React.Component<ICSVFormProps, ICSVFormStat
     reset() {
         this.setState({
             open: false,
+            uploading: false,
             fields: 1,
             file: undefined,
             format: FileFormat.CommaSeparated
@@ -58,9 +67,22 @@ export default class CSVForm extends React.Component<ICSVFormProps, ICSVFormStat
 
     confirm = async () => {
         if (this.state.file) {
-            await this.uploadFile(this.state.file);
-            this.reset();
-            this.props.onUpload();
+            try {
+                this.setState({
+                    uploading: true
+                });
+                await this.uploadFile(this.state.file);
+                this.reset();
+                this.props.onUpload();
+            }
+            catch {
+
+            }
+            finally {
+                this.setState({
+                    uploading: false
+                });
+            }
         }
     }
 
@@ -119,6 +141,8 @@ export default class CSVForm extends React.Component<ICSVFormProps, ICSVFormStat
                                 onClick={this.confirm}
                                 theme="primary"
                                 disabled={!valid}
+                                locked={this.state.uploading}
+                                lockContent="..."
                             >Upload</Button>
                         </ActionBar>
                     }
@@ -127,10 +151,17 @@ export default class CSVForm extends React.Component<ICSVFormProps, ICSVFormStat
                         <FormText>
                             Where is the file located?
                         </FormText>
-                        <FormGroup label="File" text={this.state.file && this.state.file.name ?
-                            this.state.file.name :
-                            undefined}>
-                            <FileUpload onUpload={this.onSelect} />
+                        <FormGroup label="File">
+                            {this.state.file && this.state.file.name ?
+                                <ActionBar align="space-between">
+                                    <div className="space">{this.state.file.name}</div>
+                                    <Button
+                                        onClick={this.clearFile}
+                                        displaySize="small"
+                                        theme="danger"
+                                    >X</Button>
+                                </ActionBar> :
+                                <FileUpload onUpload={this.onSelect} />}
                         </FormGroup>
                         <FormText>
                             Is the file format CSV (comma-separated values) or TSV (tab-separated values)?
