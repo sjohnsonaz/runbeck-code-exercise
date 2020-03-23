@@ -1,6 +1,6 @@
 import React from 'react';
 import { IFile } from 'scripts/models/IFile';
-import { Table, Button, Divider } from '@artistry/react';
+import { Table, Button, Divider, Scrollable } from '@artistry/react';
 import { FileFormat } from 'scripts/models/FileFormat';
 import DeleteButton from './DeleteButton';
 
@@ -16,7 +16,7 @@ export default class CSVList extends React.Component<ICSVListProps> {
 
     render() {
         return (
-            <div>
+            <Scrollable type="x">
                 {this.props.files && this.props.files.length ?
                     <Table
                         hoverable
@@ -105,7 +105,7 @@ export default class CSVList extends React.Component<ICSVListProps> {
                         <Divider />
                         <div className="align-center space ">No files</div>
                     </>}
-            </div>
+            </Scrollable>
         )
     }
 }
