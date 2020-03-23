@@ -1,35 +1,58 @@
 import { Controller, method, IFileField } from 'sierra';
-import * as fs from 'fs';
-import * as path from 'path';
-
-import config from '../config.js';
 
 import FileManger, { FileFormat } from '../managers/FileManager';
+import FileStore from '../stores/FileStore';
 
 export default class FileController extends Controller {
     fileManager = new FileManger();
+    store: FileStore;
 
-    @method()
-    async post(file: IFileField, format: FileFormat, fields: string) {
+    constructor(store: FileStore) {
+        super();
+        this.store = store;
+    }
+
+    @method('post', '/upload')
+    async upload(file: IFileField, format: FileFormat, fields: string) {
         if (file) {
-            let newPath = path.join(config.uploadPath, file.filename);
-            let value = await new Promise<string>((resolve, reject) => {
-                fs.writeFile(newPath, file.data, (err) => {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        resolve(newPath);
-                    }
-                });
-            });
+            let value = await this.fileManager.uploadFile(file);
             return await this.fileManager.processFile(value, format, parseInt(fields));
         } else {
             throw new Error('No file data');
         }
     }
 
-    @method('post')
-    async process() {
+    @method('get', '/')
+    async list(query: any) {
+        let subscriptions = await this.store.list(query);
+        let results = {
+            DataList: subscriptions,
+            TotalCount: subscriptions.length
+        };
+        return results;
+    }
 
+    @method('get', '/:id')
+    async get(id: string) {
+        let subscription = await this.store.get(id);
+        return subscription;
+    }
+
+    @method('post', '/')
+    async post($body: any) {
+        let subscriptionId = await this.store.create($body);
+        return subscriptionId;
+    }
+
+    @method('put', '/:id')
+    async put($body: any, id: string) {
+        let number = await this.store.update(id, $body);
+        return number;
+    }
+
+    @method('delete', '/:id')
+    async delete(id: string) {
+        let number = await this.store.delete(id);
+        return number;
     }
 }

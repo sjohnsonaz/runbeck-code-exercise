@@ -23,9 +23,11 @@
   },
   "homepage": "https://github.com/sjohnsonaz/runbeck-code-exercise#readme",
   "dependencies": {
+    "nedb": "1.8.0",
     "sierra": "0.3.16"
   },
   "devDependencies": {
+    "@types/nedb": "1.8.5",
     "@types/node": "13.9.2",
     "tsc-watch": "4.2.3",
     "typescript": "3.8.3"

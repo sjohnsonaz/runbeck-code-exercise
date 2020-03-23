@@ -1,6 +1,9 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as readline from 'readline';
+import { IFileField } from 'sierra';
+
+import config from '../config.js';
 
 export enum FileFormat {
     CommaSeparated = 'CommaSeparated',
@@ -8,6 +11,20 @@ export enum FileFormat {
 }
 
 export default class FileManager {
+    async uploadFile(file: IFileField) {
+        let newPath = path.join(config.uploadPath, file.filename);
+        let value = await new Promise<string>((resolve, reject) => {
+            fs.writeFile(newPath, file.data, (err) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(newPath);
+                }
+            });
+        });
+        return value;
+    }
+
     async processFile(name: string, format: FileFormat, fields: number) {
         let parsedPath = path.parse(name);
         let correctPath = path.join(parsedPath.dir, parsedPath.name + '_correct' + parsedPath.ext);

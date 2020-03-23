@@ -32,6 +32,9 @@ node_modules
 public/bundle
 public/upload
 
+# Data directory
+data
+
 # Packed files
 *.tgz
 

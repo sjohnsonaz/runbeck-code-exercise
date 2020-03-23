@@ -66,9 +66,7 @@ export default class CSVForm extends React.Component<ICSVFormProps, ICSVFormStat
                     progressHandler(event);
                 }
             };
-            xhr.open('POST', 'http://localhost:3001/file', true);
-            //xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
-            //xhr.setRequestHeader("Content-Type", "multipart/form-data");
+            xhr.open('POST', 'http://localhost:3001/file/upload', true);
             let formData = new FormData();
             formData.append('format', this.state.format);
             formData.append('fields', this.state.fields.toString());
@@ -88,6 +86,7 @@ export default class CSVForm extends React.Component<ICSVFormProps, ICSVFormStat
                         <Button
                             onClick={this.confirm}
                             theme="primary"
+                            disabled={!valid}
                         >Upload</Button>
                     </ActionBar>
                 }
