@@ -22,4 +22,4 @@ This code contains a RESTful Service, a Single Page Application Client, and a sm
 For ease of use, there is a single command which does all of this and watches for file changes.
 
 1. Run `npm run watch`.
-2. Open and browser and navigate to <a href="http://localhost:3001" target="_blank">http://localhost:3001
+2. Open and browser and navigate to http://localhost:3001.
