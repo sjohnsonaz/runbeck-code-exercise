@@ -1,6 +1,7 @@
-import * as React from 'react';
+import React from 'react';
 import { MenuBar, Container } from '@artistry/react';
-import CSVForm from './CSVForm';
+
+import CSV from './CSV';
 
 export interface ILayoutProps {
 
@@ -12,7 +13,7 @@ export default class Layout extends React.Component<ILayoutProps> {
             <div>
                 <MenuBar title="Runbeck Code Exercise"></MenuBar>
                 <Container menuBarTop screenSize="medium">
-                    <CSVForm />
+                    <CSV />
                 </Container>
             </div>
         );

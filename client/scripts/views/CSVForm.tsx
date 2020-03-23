@@ -1,16 +1,13 @@
-import * as React from 'react';
-import { Section, Form, FormGroup, FileUpload, FormText, Select, AmountInput, ActionBar, Button } from '@artistry/react';
-
-export enum FileFormat {
-    CommaSeparated = 'CommaSeparated',
-    TabSeparated = 'TabSeparated'
-}
+import React from 'react';
+import { Section, Form, FormGroup, FileUpload, FormText, Select, AmountInput, ActionBar, Button, Modal } from '@artistry/react';
+import { FileFormat } from 'scripts/models/FileFormat';
 
 export interface ICSVFormProps {
-
+    onUpload: () => any;
 }
 
 export interface ICSVFormState {
+    open?: boolean;
     file?: File;
     format?: FileFormat;
     fields?: number;
@@ -18,8 +15,15 @@ export interface ICSVFormState {
 
 export default class CSVForm extends React.Component<ICSVFormProps, ICSVFormState> {
     state: ICSVFormState = {
+        open: false,
         format: FileFormat.CommaSeparated,
         fields: 1
+    }
+
+    onOpen = () => {
+        this.setState({
+            open: true
+        });
     }
 
     onUpload = (files: FileList) => {
@@ -43,10 +47,20 @@ export default class CSVForm extends React.Component<ICSVFormProps, ICSVFormStat
         });
     }
 
-    confirm = () => {
+    confirm = async () => {
         if (this.state.file) {
-            this.uploadFile(this.state.file);
+            await this.uploadFile(this.state.file);
+            this.setState({
+                open: false
+            });
+            this.props.onUpload();
         }
+    }
+
+    cancel = async () => {
+        this.setState({
+            open: false
+        });
     }
 
     async uploadFile(file: File, progressHandler?: (event: ProgressEvent) => void): Promise<string> {
@@ -78,56 +92,70 @@ export default class CSVForm extends React.Component<ICSVFormProps, ICSVFormStat
     render() {
         let valid = this.state.format && (this.state.fields > 0) && this.state.file
         return (
-            <Section
-                header="CSV Upload"
-                headerSpace
-                footer={
-                    <ActionBar>
-                        <Button
-                            onClick={this.confirm}
-                            theme="primary"
-                            disabled={!valid}
-                        >Upload</Button>
-                    </ActionBar>
-                }
-            >
-                <Form screenSize="medium">
-                    <FormText>
-                        Where is the file located?
+            <>
+                <ActionBar>
+                    <Button
+                        onClick={this.onOpen}
+                        theme="primary"
+                    >Upload</Button>
+                </ActionBar>
+                <Modal
+                    open={this.state.open}
+                    onClose={this.cancel}
+                    onConfirm={this.confirm}
+                    title="CSV Upload"
+                    screenSize="medium"
+                    footer={
+                        <ActionBar>
+                            <Button
+                                onClick={this.cancel}
+                            >Cancel</Button>
+                            <Button
+                                onClick={this.confirm}
+                                theme="primary"
+                                disabled={!valid}
+                            >Upload</Button>
+                        </ActionBar>
+                    }
+                >
+                    <Form screenSize="medium">
+                        <FormText>
+                            Where is the file located?
                     </FormText>
-                    <FormGroup label="File">
-                        <FileUpload onUpload={this.onUpload} />
-                    </FormGroup>
-                    <FormText>
-                        Is the file format CSV (comma-separated values) or TSV (tab-separated values)?
+                        <FormGroup label="File">
+                            <FileUpload onUpload={this.onUpload} />
+                        </FormGroup>
+                        <FormText>
+                            Is the file format CSV (comma-separated values) or TSV (tab-separated values)?
                     </FormText>
-                    <FormGroup label="Format">
-                        <Select
-                            data={[{
-                                title: 'CSV (comma-separated values)',
-                                value: FileFormat.CommaSeparated
-                            }, {
-                                title: 'TSV (tab-separated values)',
-                                value: FileFormat.TabSeparated
-                            }]}
-                            valueProp="value"
-                            displayProp="title"
-                            onChange={this.changeFormat}
-                            value={this.state.format}
-                        />
-                    </FormGroup>
-                    <FormText>
-                        How many fields should each record contain?
+                        <FormGroup label="Format">
+                            <Select
+                                data={[{
+                                    title: 'CSV (comma-separated values)',
+                                    value: FileFormat.CommaSeparated
+                                }, {
+                                    title: 'TSV (tab-separated values)',
+                                    value: FileFormat.TabSeparated
+                                }]}
+                                valueProp="value"
+                                displayProp="title"
+                                onChange={this.changeFormat}
+                                value={this.state.format}
+                            />
+                        </FormGroup>
+                        <FormText>
+                            How many fields should each record contain?
                     </FormText>
-                    <FormGroup label="Fields">
-                        <AmountInput
-                            value={this.state.fields}
-                            onChange={this.changeFields}
-                            minimum={1}
-                        />
-                    </FormGroup>
-                </Form>
-            </Section>
+                        <FormGroup label="Fields">
+                            <AmountInput
+                                value={this.state.fields}
+                                onChange={this.changeFields}
+                                minimum={1}
+                            />
+                        </FormGroup>
+                    </Form>
+                </Modal>
+            </>
         );
     }
 }
