@@ -22,12 +22,12 @@ export default class FileController extends Controller {
         }
     }
 
-    @method('get', '/')
-    async list(query: any) {
+    @method('get')
+    async index(query: any) {
         let subscriptions = await this.store.list(query);
         let results = {
-            DataList: subscriptions,
-            TotalCount: subscriptions.length
+            data: subscriptions,
+            count: subscriptions.length
         };
         return results;
     }
@@ -38,7 +38,7 @@ export default class FileController extends Controller {
         return subscription;
     }
 
-    @method('post', '/')
+    @method('post')
     async post($body: any) {
         let subscriptionId = await this.store.create($body);
         return subscriptionId;

@@ -16,7 +16,7 @@ class MainApplication {
         db.loadDatabase();
         const store = new FileStore(db);
         this.sierra.addController(new FileController(store));
-        this.sierra.init();
+        await this.sierra.init();
     }
     async listen(port: number) {
         return this.sierra.listen(port);
