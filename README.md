@@ -23,3 +23,4 @@ For ease of use, there is a single command which does all of this and watches fo
 
 1. Run `npm run watch`.
 2. Open and browser and navigate to http://localhost:3001.
+3. Example file can be downloaded at http://localhost:3001/example/Example1.txt.
