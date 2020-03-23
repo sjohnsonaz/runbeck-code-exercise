@@ -25,11 +25,6 @@ export default class DeleteButton extends React.Component<IDeleteButtonProps, ID
         catch {
 
         }
-        finally {
-            this.setState({
-                deleting: false
-            })
-        }
     }
 
     render() {
