@@ -26,7 +26,7 @@ export default class CSVForm extends React.Component<ICSVFormProps, ICSVFormStat
         });
     }
 
-    onUpload = (files: FileList) => {
+    onSelect = (files: FileList) => {
         this.setState({
             file: files[0]
         });
@@ -47,20 +47,25 @@ export default class CSVForm extends React.Component<ICSVFormProps, ICSVFormStat
         });
     }
 
+    reset() {
+        this.setState({
+            open: false,
+            fields: 1,
+            file: undefined,
+            format: FileFormat.CommaSeparated
+        });
+    }
+
     confirm = async () => {
         if (this.state.file) {
             await this.uploadFile(this.state.file);
-            this.setState({
-                open: false
-            });
+            this.reset();
             this.props.onUpload();
         }
     }
 
     cancel = async () => {
-        this.setState({
-            open: false
-        });
+        this.reset();
     }
 
     async uploadFile(file: File, progressHandler?: (event: ProgressEvent) => void): Promise<string> {
@@ -121,13 +126,15 @@ export default class CSVForm extends React.Component<ICSVFormProps, ICSVFormStat
                     <Form screenSize="medium">
                         <FormText>
                             Where is the file located?
-                    </FormText>
-                        <FormGroup label="File">
-                            <FileUpload onUpload={this.onUpload} />
+                        </FormText>
+                        <FormGroup label="File" text={this.state.file && this.state.file.name ?
+                            this.state.file.name :
+                            undefined}>
+                            <FileUpload onUpload={this.onSelect} />
                         </FormGroup>
                         <FormText>
                             Is the file format CSV (comma-separated values) or TSV (tab-separated values)?
-                    </FormText>
+                        </FormText>
                         <FormGroup label="Format">
                             <Select
                                 data={[{
