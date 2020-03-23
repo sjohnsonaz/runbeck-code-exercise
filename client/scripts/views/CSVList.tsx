@@ -93,6 +93,7 @@ export default class CSVList extends React.Component<ICSVListProps> {
                                 return (
                                     <td key="action">
                                         <DeleteButton
+                                            key={file._id}
                                             file={file}
                                             onDelete={this.onDelete.bind(this, file)}
                                         />
