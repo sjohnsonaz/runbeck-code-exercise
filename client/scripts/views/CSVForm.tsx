@@ -76,9 +76,6 @@ export default class CSVForm extends React.Component<ICSVFormProps, ICSVFormStat
                 this.props.onUpload();
             }
             catch {
-
-            }
-            finally {
                 this.setState({
                     uploading: false
                 });

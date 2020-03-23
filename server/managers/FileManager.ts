@@ -41,14 +41,29 @@ export default class FileManager {
         let file = await this.get(id);
         if (file) {
             let filePath = path.join(config.uploadPath, file._id + '.txt');
-            await this.unlink(filePath);
+            try {
+                await this.unlink(filePath);
+            }
+            catch{
+
+            }
             if (file.correct) {
                 let correctFilePath = path.join(config.uploadPath, file._id + '_correct.txt');
-                await this.unlink(correctFilePath);
+                try {
+                    await this.unlink(correctFilePath);
+                }
+                catch {
+
+                }
             }
             if (file.incorrect) {
                 let incorrectFilePath = path.join(config.uploadPath, file._id + '_incorrect.txt');
-                await this.unlink(incorrectFilePath);
+                try {
+                    await this.unlink(incorrectFilePath);
+                }
+                catch {
+
+                }
             }
         }
         return this.store.delete(id);

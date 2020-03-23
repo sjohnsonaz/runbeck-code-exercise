@@ -23,7 +23,9 @@ export default class DeleteButton extends React.Component<IDeleteButtonProps, ID
             await this.props.onDelete(this.props.file);
         }
         catch {
-
+            this.setState({
+                deleting: false
+            });
         }
     }
 
