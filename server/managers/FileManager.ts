@@ -38,6 +38,19 @@ export default class FileManager {
     }
 
     async delete(id: string) {
+        let file = await this.get(id);
+        if (file) {
+            let filePath = path.join(config.uploadPath, file._id + '.txt');
+            await this.unlink(filePath);
+            if (file.correct) {
+                let correctFilePath = path.join(config.uploadPath, file._id + '_correct.txt');
+                await this.unlink(correctFilePath);
+            }
+            if (file.incorrect) {
+                let incorrectFilePath = path.join(config.uploadPath, file._id + '_incorrect.txt');
+                await this.unlink(incorrectFilePath);
+            }
+        }
         return this.store.delete(id);
     }
 
@@ -46,15 +59,7 @@ export default class FileManager {
             name: file.filename
         });
         let filePath = path.join(config.uploadPath, id + '.txt');
-        await new Promise<string>((resolve, reject) => {
-            fs.writeFile(filePath, file.data, (err) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(filePath);
-                }
-            });
-        });
+        await this.writeFile(filePath, file.data);
         return id;
     }
 
@@ -113,5 +118,29 @@ export default class FileManager {
             correct: correctPath,
             incorrectPath: incorrectPath
         };
+    }
+
+    async writeFile(filePath: fs.PathLike | number, data: any) {
+        await new Promise<boolean>((resolve, reject) => {
+            fs.writeFile(filePath, data, (err) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(true);
+                }
+            });
+        });
+    }
+
+    async unlink(filePath: fs.PathLike) {
+        await new Promise<boolean>((resolve, reject) => {
+            fs.unlink(filePath, (err) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(true);
+                }
+            })
+        });
     }
 }
