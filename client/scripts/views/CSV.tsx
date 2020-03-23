@@ -1,5 +1,4 @@
 import React from 'react';
-import { ActionBar, Button } from '@artistry/react';
 
 import { IFile } from '../models/IFile';
 import CrudConnection from '../base/CrudConnection';
@@ -36,11 +35,21 @@ export default class CSV extends React.Component<ICSVProps, ICSVState> {
         await this.refreshData();
     }
 
+    onDelete = async (file: IFile) => {
+        await this.connection.delete(file._id);
+        await this.refreshData();
+    }
+
     render() {
         return (
             <div>
-                <CSVForm onUpload={this.onUpload} />
-                <CSVList files={this.state.files} />
+                <CSVForm
+                    onUpload={this.onUpload}
+                />
+                <CSVList
+                    files={this.state.files}
+                    onDelete={this.onDelete}
+                />
             </div>
         );
     }
