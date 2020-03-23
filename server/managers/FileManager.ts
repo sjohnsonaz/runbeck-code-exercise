@@ -5,31 +5,65 @@ import { IFileField } from 'sierra';
 
 import config from '../config.js';
 
-export enum FileFormat {
-    CommaSeparated = 'CommaSeparated',
-    TabSeparated = 'TabSeparated'
-}
+import FileStore from '../stores/FileStore';
+import { IFile } from '../models/IFile.js';
+import { FileFormat } from '../models/FileFormat.js';
 
 export default class FileManager {
+    store: FileStore;
+
+    constructor(store: FileStore) {
+        this.store = store;
+    }
+
+    async list(query: any) {
+        let subscriptions = await this.store.list(query);
+        let results = {
+            data: subscriptions,
+            count: subscriptions.length
+        };
+        return results;
+    }
+
+    async get(id: string) {
+        return this.store.get(id);
+    }
+
+    async create(file: Partial<IFile>) {
+        return this.store.create(file);
+    }
+
+    async update(id: string, file: Partial<IFile> | any) {
+        return this.store.update(id, file);
+    }
+
+    async delete(id: string) {
+        return this.store.delete(id);
+    }
+
     async uploadFile(file: IFileField) {
-        let newPath = path.join(config.uploadPath, file.filename);
-        let value = await new Promise<string>((resolve, reject) => {
-            fs.writeFile(newPath, file.data, (err) => {
+        let id = await this.create({
+            name: file.filename
+        });
+        let filePath = path.join(config.uploadPath, id + '.txt');
+        await new Promise<string>((resolve, reject) => {
+            fs.writeFile(filePath, file.data, (err) => {
                 if (err) {
                     reject(err);
                 } else {
-                    resolve(newPath);
+                    resolve(filePath);
                 }
             });
         });
-        return value;
+        return id;
     }
 
-    async processFile(name: string, format: FileFormat, fields: number) {
-        let parsedPath = path.parse(name);
+    async processFile(id: string, format: FileFormat, fields: number) {
+        let filePath = path.join(config.uploadPath, id + '.txt');
+        let parsedPath = path.parse(filePath);
         let correctPath = path.join(parsedPath.dir, parsedPath.name + '_correct' + parsedPath.ext);
         let incorrectPath = path.join(parsedPath.dir, parsedPath.name + '_incorrect' + parsedPath.ext);
-        let fileStream = fs.createReadStream(name);
+        let fileStream = fs.createReadStream(filePath);
         let reader = readline.createInterface({
             input: fileStream,
             crlfDelay: Infinity
@@ -65,9 +99,17 @@ export default class FileManager {
                 }
             }
         }
+        this.update(id, {
+            $set: {
+                format: format,
+                fields: fields,
+                correct: !!correctWriter,
+                incorrect: !!incorrectWriter
+            }
+        });
         return {
             header: header,
-            path: name,
+            path: filePath,
             correct: correctPath,
             incorrectPath: incorrectPath
         };

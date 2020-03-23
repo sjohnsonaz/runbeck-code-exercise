@@ -1,5 +1,9 @@
+import { FileFormat } from "./FileFormat";
+
 export interface IFile {
     name: string;
-    correct: string;
-    incorrect: string;
+    format: FileFormat;
+    fields: number;
+    correct: boolean;
+    incorrect: boolean;
 }

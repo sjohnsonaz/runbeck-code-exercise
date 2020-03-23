@@ -1,15 +1,14 @@
 import { Controller, method, IFileField } from 'sierra';
 
-import FileManger, { FileFormat } from '../managers/FileManager';
-import FileStore from '../stores/FileStore';
+import FileManger from '../managers/FileManager';
+import { FileFormat } from '../models/FileFormat';
 
 export default class FileController extends Controller {
-    fileManager = new FileManger();
-    store: FileStore;
+    fileManager: FileManger;
 
-    constructor(store: FileStore) {
+    constructor(fileManager: FileManger) {
         super();
-        this.store = store;
+        this.fileManager = fileManager;
     }
 
     @method('post', '/upload')
@@ -24,35 +23,26 @@ export default class FileController extends Controller {
 
     @method('get')
     async index(query: any) {
-        let subscriptions = await this.store.list(query);
-        let results = {
-            data: subscriptions,
-            count: subscriptions.length
-        };
-        return results;
+        return this.fileManager.list(query);
     }
 
     @method('get', '/:id')
     async get(id: string) {
-        let subscription = await this.store.get(id);
-        return subscription;
+        return this.fileManager.get(id);
     }
 
     @method('post')
     async post($body: any) {
-        let subscriptionId = await this.store.create($body);
-        return subscriptionId;
+        return this.fileManager.create($body);
     }
 
     @method('put', '/:id')
     async put($body: any, id: string) {
-        let number = await this.store.update(id, $body);
-        return number;
+        return this.fileManager.update(id, $body);
     }
 
     @method('delete', '/:id')
     async delete(id: string) {
-        let number = await this.store.delete(id);
-        return number;
+        return this.fileManager.delete(id);
     }
 }

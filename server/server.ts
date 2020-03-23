@@ -5,6 +5,7 @@ import config from './config';
 import FileStore from './stores/FileStore';
 
 import FileController from './controllers/FileController';
+import FileManager from './managers/FileManager';
 
 class MainApplication {
     sierra = new Sierra();
@@ -15,7 +16,8 @@ class MainApplication {
         });
         db.loadDatabase();
         const store = new FileStore(db);
-        this.sierra.addController(new FileController(store));
+        const fileManager = new FileManager(store)
+        this.sierra.addController(new FileController(fileManager));
         await this.sierra.init();
     }
     async listen(port: number) {

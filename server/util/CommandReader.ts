@@ -1,6 +1,6 @@
 import readline from 'readline';
 import fs from 'fs';
-import { FileFormat } from '../managers/FileManager';
+import { FileFormat } from '../models/FileFormat';
 
 export enum Questions {
     Location = "Where is the file located?\n",

@@ -1,8 +1,8 @@
-import FileManager, { FileFormat } from './managers/FileManager';
+import FileManager from './managers/FileManager';
 import CommandReader from './util/CommandReader';
 
 (async () => {
-    let fileManager = new FileManager();
+    let fileManager = new FileManager(undefined as any);
     let commandReader = new CommandReader();
     try {
         let location = await commandReader.getLocation();

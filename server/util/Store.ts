@@ -35,7 +35,7 @@ export default class Store<T> {
         });
     }
 
-    create(item: T) {
+    create(item: Partial<T>) {
         return new Promise<string>((resolve, reject) => {
             this.db.insert(item as any, (err, newDoc: T & IDocument) => {
                 if (err) {
@@ -49,7 +49,7 @@ export default class Store<T> {
         });
     };
 
-    update(id: string, item: T) {
+    update(id: string, item: Partial<T> | any) {
         return new Promise<number>((resolve, reject) => {
             this.db.update({ _id: id }, item, {}, (err: any, numberofUpdated: number) => {
                 if (err) {
