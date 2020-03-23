@@ -4,6 +4,8 @@ This is a solution to the Code Exercise using React and TypeScript.  Because it 
 
 The project makes use of several open source libraries I've created.  The service is powered by `sierra`, a simple MVC library.  The client uses `artistry` and `@artistry/react`, which is a full featured style and Component library.
 
+> It is assumed that all files will be CSV or TSV, where there are no embedded commas or tabs inside quotation marks.
+
 ## Running the Project
 
 ### Prerequisites
