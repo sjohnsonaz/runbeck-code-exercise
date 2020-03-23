@@ -11,11 +11,12 @@ The project makes use of several open source libraries I've created.  The servic
 ### Prerequisites
 
 1. Install Node.js.  This was tested on version `13.11.0`.
-2. Install Typescript globally.  Run `npm install -g typescript`.
+2. Install Typescript globally.  In a terminal, run `npm install -g typescript`.
 
 ### Installation
 
 1. Clone the project into a local folder.
+2. In a terminal, navigate into the local folder.
 2. Run `npm install`.
 
 ### Running
